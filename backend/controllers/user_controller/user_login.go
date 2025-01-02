@@ -9,29 +9,30 @@ import (
 	"github.com/kruily/gofastcrud/pkg/validator"
 )
 
-func (c *UserController) Registe(ctx *gin.Context) (interface{}, error) {
-	var request models.UserRegisterRequest
+func (c *UserController) Login(ctx *gin.Context) (interface{}, error) {
+	var request models.UserLoginRequest
 	if err := ctx.ShouldBindJSON(&request); err != nil {
 		return nil, err
 	}
 	if err := validator.Validate(request); err != nil {
 		return nil, errors.New(errors.ErrInvalidParam, err.Error())
 	}
-	user := models.User{}
+	var user *models.User
+	var err error
 	if request.Username != "" {
-		user.Username = request.Username
+		user, err = c.Repository.FindOne(ctx, "username = ?", request.Username)
 	}
 	if request.Phone != "" {
-		user.Phone = request.Phone
+		user, err = c.Repository.FindOne(ctx, "phone = ?", request.Phone)
 	}
 	if request.Email != "" {
-		user.Email = request.Email
+		user, err = c.Repository.FindOne(ctx, "email = ?", request.Email)
 	}
-	if request.Password != "" {
-		user.Password = request.Password
+	if err != nil {
+		return nil, errors.New(errors.ErrUserNotFound, err.Error())
 	}
-	if err := c.Repository.Create(ctx, &user); err != nil {
-		return nil, errors.New(errors.ErrDatabase, err.Error())
+	if user.Password != request.Password {
+		return nil, errors.New(errors.ErrInvalidParam, "密码错误")
 	}
 	token, err := c.jwtmaker.CreateToken(user.ID, user.Username, time.Hour*24)
 	if err != nil {
@@ -39,6 +40,6 @@ func (c *UserController) Registe(ctx *gin.Context) (interface{}, error) {
 	}
 	return models.UserLoginedResponse{
 		Token: token,
-		User:  user,
+		User:  *user,
 	}, nil
 }

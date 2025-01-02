@@ -5,17 +5,21 @@ import (
 	"v-lit-backend/models"
 
 	"github.com/kruily/gofastcrud/core/crud"
+	"github.com/kruily/gofastcrud/core/crud/module"
 	"github.com/kruily/gofastcrud/core/crud/types"
+	"github.com/kruily/gofastcrud/pkg/fast_jwt"
 	"gorm.io/gorm"
 )
 
 type UserController struct {
 	*crud.CrudController[models.User]
+	jwtmaker *fast_jwt.JWTMaker
 }
 
 func NewUserController(db *gorm.DB) crud.ICrudController[crud.ICrudEntity] {
 	controller := &UserController{
 		CrudController: crud.NewCrudController(db, models.User{}),
+		jwtmaker:       module.CRUD_MODULE.GetService(module.JwtService).(*fast_jwt.JWTMaker),
 	}
 
 	controller.AddRoute(types.APIRoute{
@@ -25,8 +29,19 @@ func NewUserController(db *gorm.DB) crud.ICrudController[crud.ICrudEntity] {
 		Tags:        []string{controller.GetEntityName()},
 		Summary:     "用户注册",
 		Description: "用户注册",
-		Request:     nil,
-		Response:    nil,
+		Request:     models.UserRegisterRequest{},
+		Response:    models.UserLoginedResponse{},
+	})
+
+	controller.AddRoute(types.APIRoute{
+		Method:      http.MethodPost,
+		Path:        "/login",
+		Handler:     controller.Login,
+		Tags:        []string{controller.GetEntityName()},
+		Summary:     "用户登录",
+		Description: "用户登录",
+		Request:     models.UserLoginRequest{},
+		Response:    models.UserLoginedResponse{},
 	})
 
 	return controller

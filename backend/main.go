@@ -10,8 +10,11 @@ import (
 	"github.com/kruily/gofastcrud/core/database"
 	"github.com/kruily/gofastcrud/core/server"
 	"github.com/kruily/gofastcrud/pkg/config"
+	"github.com/kruily/gofastcrud/pkg/fast_jwt"
 	"github.com/kruily/gofastcrud/pkg/logger"
 	"github.com/kruily/gofastcrud/pkg/utils"
+
+	"v-lit-backend/register"
 )
 
 func init() {
@@ -55,6 +58,13 @@ func main() {
 	}
 	defer logService.Close()
 
+	// 注册jwt服务
+	jwtmaker, err := fast_jwt.NewJWTMaker(cfg.JWT.SecretKey)
+	if err != nil {
+		log.Fatal("Failed to create jwt maker: ", err)
+	}
+	module.CRUD_MODULE.SetService(module.JwtService, jwtmaker)
+
 	// 注册日志服务
 	module.CRUD_MODULE.WithLogger(logService)
 	// 创建服务实例
@@ -66,7 +76,7 @@ func main() {
 	factory := crud.NewControllerFactory(db.DB())
 	module.CRUD_MODULE.SetService("FACTORY", factory)
 	// 注册控制器
-	Register(srv)
+	register.Register(srv)
 	// 运行服务（包含优雅启停）
 	if err := srv.Run(); err != nil {
 		log.Fatalf("Server error: %v", err)
