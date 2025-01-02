@@ -4,7 +4,7 @@ import "github.com/kruily/gofastcrud/core/crud"
 
 // User 用户模型
 type User struct {
-	*crud.BaseEntity
+	*crud.BaseUUIDEntity
 	Username string `json:"username" gorm:"column:username;type:varchar(255);not null;unique"`
 	Password string `json:"-" gorm:"column:password;type:varchar(60);not null"`
 	Email    string `json:"email" gorm:"column:email;type:varchar(255);not null;unique"`

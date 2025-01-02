@@ -34,7 +34,7 @@ func (c *UserController) Login(ctx *gin.Context) (interface{}, error) {
 	if user.Password != request.Password {
 		return nil, errors.New(errors.ErrInvalidParam, "密码错误")
 	}
-	token, err := c.jwtmaker.CreateToken(user.ID, user.Username, time.Hour*24)
+	token, err := c.jwtmaker.CreateToken(uint(user.ID.ID()), user.Username, time.Hour*24)
 	if err != nil {
 		return nil, errors.New(errors.ErrInternal, err.Error())
 	}

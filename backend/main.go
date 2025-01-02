@@ -74,7 +74,7 @@ func main() {
 
 	srv.PublishVersion(server.V1)
 	factory := crud.NewControllerFactory(db.DB())
-	module.CRUD_MODULE.SetService("FACTORY", factory)
+	module.CRUD_MODULE.SetService(module.FactoryService, factory)
 	// 注册控制器
 	register.Register(srv)
 	// 运行服务（包含优雅启停）

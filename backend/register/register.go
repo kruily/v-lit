@@ -10,7 +10,7 @@ import (
 )
 
 func Register(srv *server.Server) {
-	factory := module.CRUD_MODULE.GetService("FACTORY").(*crud.ControllerFactory)
+	factory := module.CRUD_MODULE.GetService(module.FactoryService).(*crud.ControllerFactory)
 
 	factory.RegisterBatchCustomMap(srv, map[string]func(*gorm.DB) crud.ICrudController[crud.ICrudEntity]{
 		"user": user_controller.NewUserController,

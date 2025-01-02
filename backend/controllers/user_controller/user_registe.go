@@ -33,7 +33,7 @@ func (c *UserController) Registe(ctx *gin.Context) (interface{}, error) {
 	if err := c.Repository.Create(ctx, &user); err != nil {
 		return nil, errors.New(errors.ErrDatabase, err.Error())
 	}
-	token, err := c.jwtmaker.CreateToken(user.ID, user.Username, time.Hour*24)
+	token, err := c.jwtmaker.CreateToken(uint(user.ID.ID()), user.Username, time.Hour*24)
 	if err != nil {
 		return nil, errors.New(errors.ErrInternal, err.Error())
 	}
