@@ -17,22 +17,12 @@ func (c *UserController) Registe(ctx *gin.Context) (interface{}, error) {
 	if err := validator.Validate(request); err != nil {
 		return nil, errors.New(errors.ErrInvalidParam, err.Error())
 	}
-	user := models.User{}
-	if request.Username != "" {
-		user.Username = request.Username
+
+	user, err := c.userSrv.RegisterUserModel(ctx, &request)
+	if err != nil {
+		return nil, err
 	}
-	if request.Phone != "" {
-		user.Phone = request.Phone
-	}
-	if request.Email != "" {
-		user.Email = request.Email
-	}
-	if request.Password != "" {
-		user.Password = request.Password
-	}
-	if err := c.Repository.Create(ctx, &user); err != nil {
-		return nil, errors.New(errors.ErrDatabase, err.Error())
-	}
+
 	token, err := c.jwtmaker.CreateToken(uint(user.ID.ID()), user.Username, time.Hour*24)
 	if err != nil {
 		return nil, errors.New(errors.ErrInternal, err.Error())

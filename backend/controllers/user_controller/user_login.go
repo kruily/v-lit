@@ -40,6 +40,6 @@ func (c *UserController) Login(ctx *gin.Context) (interface{}, error) {
 	}
 	return models.UserLoginedResponse{
 		Token: token,
-		User:  *user,
+		User:  user,
 	}, nil
 }

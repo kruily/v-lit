@@ -26,7 +26,7 @@ type UserRegisterRequest struct {
 // UserRegisterResponse 用户注册响应结构体
 type UserLoginedResponse struct {
 	Token string `json:"token"`
-	User  User   `json:"user"`
+	User  *User  `json:"user"`
 }
 
 // UserLoginRequest 用户登录请求结构体
