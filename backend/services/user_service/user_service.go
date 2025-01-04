@@ -5,7 +5,7 @@ import (
 	"v-lit-backend/models"
 
 	"github.com/kruily/gofastcrud/core/crud"
-	"github.com/kruily/gofastcrud/pkg/errors"
+	"github.com/kruily/gofastcrud/errors"
 )
 
 type UserService struct {

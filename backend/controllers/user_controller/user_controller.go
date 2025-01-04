@@ -8,7 +8,7 @@ import (
 	"github.com/kruily/gofastcrud/core/crud"
 	"github.com/kruily/gofastcrud/core/crud/module"
 	"github.com/kruily/gofastcrud/core/crud/types"
-	"github.com/kruily/gofastcrud/pkg/fast_jwt"
+	"github.com/kruily/gofastcrud/fast_jwt"
 	"gorm.io/gorm"
 )
 

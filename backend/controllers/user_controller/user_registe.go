@@ -5,8 +5,8 @@ import (
 	"v-lit-backend/models"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kruily/gofastcrud/pkg/errors"
-	"github.com/kruily/gofastcrud/pkg/validator"
+	"github.com/kruily/gofastcrud/errors"
+	"github.com/kruily/gofastcrud/validator"
 )
 
 func (c *UserController) Registe(ctx *gin.Context) (interface{}, error) {

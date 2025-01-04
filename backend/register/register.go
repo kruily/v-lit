@@ -5,16 +5,22 @@ import (
 	"v-lit-backend/models/model_story"
 
 	"github.com/kruily/gofastcrud/core/crud"
-	"github.com/kruily/gofastcrud/core/crud/module"
 	"github.com/kruily/gofastcrud/core/server"
 	"gorm.io/gorm"
 )
 
-func Register(srv *server.Server) {
-	factory := module.CRUD_MODULE.GetService(module.FactoryService).(*crud.ControllerFactory)
+func Register(factory *crud.ControllerFactory, srv *server.Server) {
+	story := factory.Register(srv, model_story.Story{})
 
-	factory.RegisterBatch(srv, model_story.Story{}, model_story.Graph{},
-		model_story.Node{}, model_story.Volume{}, model_story.Chapter{})
+	graph := factory.RegisterWithFather(srv, story, model_story.Graph{})
+
+	factory.RegisterWithFather(srv, graph, model_story.Node{})
+
+	volume := factory.RegisterWithFather(srv, story, model_story.Volume{})
+
+	factory.RegisterWithFather(srv, volume, model_story.Chapter{})
+
+	factory.RegisterWithFather(srv, story, model_story.Card{})
 
 	factory.RegisterBatchCustomMap(srv, map[string]func(*gorm.DB) crud.ICrudController[crud.ICrudEntity]{
 		"user": user_controller.NewUserController,
