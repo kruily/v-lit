@@ -1,1 +1,0 @@
- /Users/jingxiu/workspace/go/v-lit/v_lit_frontend/.dart_tool/flutter_gen/gen_l10n/app_localizations_en.dart /Users/jingxiu/workspace/go/v-lit/v_lit_frontend/.dart_tool/flutter_gen/gen_l10n/app_localizations.dart:  /Users/jingxiu/workspace/go/v-lit/v_lit_frontend/l10n.yaml /Users/jingxiu/workspace/go/v-lit/v_lit_frontend/lib/src/localization/app_en.arb
