@@ -36,8 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   fluro: ^2.0.5
   lottie: ^3.3.0
-  node_editor: ^0.0.5
   star_menu: ^4.0.1
+  graphview: ^1.2.0
   
 dev_dependencies:
   flutter_test:

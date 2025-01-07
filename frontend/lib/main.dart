@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/router/router_manager.dart';
-import 'package:frontend/views/graph/graph.dart';
+import 'package:frontend/views/graph/blueprint_editor.dart';
 // import 'package:frontend/views/home/home.dart';
 // import 'package:frontend/views/login/login.dart';
 
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const GraphPage(),
+      home: BlueprintEditor(),
       onGenerateRoute: RouterManager.router.generator,
     );
   }
